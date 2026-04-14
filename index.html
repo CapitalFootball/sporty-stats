@@ -140,10 +140,10 @@
         count += increment;
 
         if (count < target) {
-          counter.innerText = count;
+          counter.innerText = count.toLocaleString();
           requestAnimationFrame(step);
         } else {
-          counter.innerText = target;
+          counter.innerText = target.toLocaleString();
         }
       };
 
