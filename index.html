@@ -5,24 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Stats Section</title>
 
+  <!-- ✅ LATO FONT -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0f1a;
-      color: #fff;
+      font-family: 'Lato', sans-serif;
     }
 
     .stats-section {
       position: relative;
-      padding: 60px 20px;
+      padding: 80px 20px;
       text-align: center;
+
+      /* Background image */
+      background-image: url("https://images.unsplash.com/photo-1521412644187-c49fa049e84d");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      color: #fff;
+      overflow: hidden;
     }
 
+    /* Dark overlay */
     .overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0,0,0,0.6);
       z-index: 0;
     }
 
@@ -48,21 +61,22 @@
     }
 
     .counter {
-      font-size: 32px;
+      font-size: 36px;
       margin: 5px 0;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     .stat p {
       margin: 0;
-      opacity: 0.8;
+      opacity: 0.85;
+      font-weight: 400;
     }
   </style>
 </head>
 
 <body>
 
-<div class="stats-section">
+<div class="stats-section" id="stats">
   <div class="overlay"></div>
 
   <div class="stats-container">
@@ -95,26 +109,46 @@
 </div>
 
 <script>
-  // Animated counter
   const counters = document.querySelectorAll('.counter');
+  let hasAnimated = false;
 
-  counters.forEach(counter => {
-    const updateCount = () => {
+  function runCounters() {
+    if (hasAnimated) return;
+    hasAnimated = true;
+
+    counters.forEach(counter => {
       const target = +counter.getAttribute('data-target');
-      const count = +counter.innerText;
+      let count = 0;
 
-      const increment = Math.ceil(target / 100);
+      const step = () => {
+        const increment = Math.ceil(target / 100);
+        count += increment;
 
-      if (count < target) {
-        counter.innerText = count + increment;
-        setTimeout(updateCount, 20);
-      } else {
-        counter.innerText = target;
+        if (count < target) {
+          counter.innerText = count;
+          requestAnimationFrame(step);
+        } else {
+          counter.innerText = target;
+        }
+      };
+
+      step();
+    });
+  }
+
+  // Trigger animation when section scrolls into view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        runCounters();
+        observer.disconnect();
       }
-    };
-
-    updateCount();
+    });
+  }, {
+    threshold: 0.4
   });
+
+  observer.observe(document.getElementById("stats"));
 </script>
 
 </body>
