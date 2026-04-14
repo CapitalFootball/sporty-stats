@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Stats Section</title>
 
-  <!-- ✅ LATO FONT -->
+  <!-- LATO FONT -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
@@ -16,22 +16,22 @@
       font-family: 'Lato', sans-serif;
     }
 
+    /* SECTION */
     .stats-section {
       position: relative;
       padding: 80px 20px;
       text-align: center;
 
-      /* Background image */
-      background-image: url("https://prodcdn.sporty.co.nz/cms/10035/66425/979288/88d8c695-0d9f-4463-b239-de7324ef25b8_wo.jpg");
+      background-image: url("https://images.unsplash.com/photo-1521412644187-c49fa049e84d");
       background-size: cover;
-      background-position: bottom;
+      background-position: center;
       background-repeat: no-repeat;
 
       color: #fff;
       overflow: hidden;
     }
 
-    /* Dark overlay */
+    /* DARK OVERLAY */
     .overlay {
       position: absolute;
       inset: 0;
@@ -39,19 +39,28 @@
       z-index: 0;
     }
 
-    .stats-container {
+    /* WRAPPER = enables mobile scroll */
+    .stats-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0 10px;
       position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 40px;
       z-index: 1;
-      max-width: 1000px;
+    }
+
+    /* FIXED LAYOUT WIDTH */
+    .stats-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+
+      width: 900px;   /* 🔥 locks layout size */
       margin: 0 auto;
     }
 
     .stat {
-      width: 180px;
+      width: 200px;
+      flex: 0 0 auto; /* prevents shrinking */
     }
 
     .icon {
@@ -79,32 +88,35 @@
 <div class="stats-section" id="stats">
   <div class="overlay"></div>
 
-  <div class="stats-container">
+  <!-- WRAPPER ADDED -->
+  <div class="stats-wrapper">
+    <div class="stats-container">
 
-    <div class="stat">
-      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/ffd6fab1-4852-4a32-8523-d6836a0d7b71_wo.png" />
-      <h2 class="counter" data-target="8904">0</h2>
-      <p>Players</p>
+      <div class="stat">
+        <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/ffd6fab1-4852-4a32-8523-d6836a0d7b71_wo.png" />
+        <h2 class="counter" data-target="8904">0</h2>
+        <p>Players</p>
+      </div>
+
+      <div class="stat">
+        <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/16337cdf-affb-41c0-bd33-c43493b57f50_wo.png" />
+        <h2 class="counter" data-target="418">0</h2>
+        <p>Teams</p>
+      </div>
+
+      <div class="stat">
+        <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/23cbbc70-be02-40bf-a9fb-24c26eeaba20_wo.png" />
+        <h2 class="counter" data-target="10000">0</h2>
+        <p>Volunteers</p>
+      </div>
+
+      <div class="stat">
+        <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/1438f624-c050-416f-9841-509c0c0f602f_wo.png" />
+        <h2 class="counter" data-target="5">0</h2>
+        <p>Affiliated Clubs</p>
+      </div>
+
     </div>
-
-    <div class="stat">
-      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/16337cdf-affb-41c0-bd33-c43493b57f50_wo.png" />
-      <h2 class="counter" data-target="418">0</h2>
-      <p>Teams</p>
-    </div>
-
-    <div class="stat">
-      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/23cbbc70-be02-40bf-a9fb-24c26eeaba20_wo.png" />
-      <h2 class="counter" data-target="10000">0</h2>
-      <p>Volunteers</p>
-    </div>
-
-    <div class="stat">
-      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/1438f624-c050-416f-9841-509c0c0f602f_wo.png" />
-      <h2 class="counter" data-target="5">0</h2>
-      <p>Affiliated Clubs</p>
-    </div>
-
   </div>
 </div>
 
@@ -136,7 +148,7 @@
     });
   }
 
-  // Trigger animation when section scrolls into view
+  // Scroll trigger
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
