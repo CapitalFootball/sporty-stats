@@ -2,22 +2,150 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Sporty Embed</title>
+  <title>Sporty Widget</title>
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
+body {
+  margin: 0;
+}
+
+.stats-section {
+  position: relative;
+  background: url('https://prodcdn.sporty.co.nz/cms/10035/66425/979288/88d8c695-0d9f-4463-b239-de7324ef25b8_wo.jpg') center/cover no-repeat;
+  padding: 80px 20px;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+
+.stats-container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+.stat {
+  flex: 1 1 200px;
+  margin: 20px;
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.stat h2 {
+  font-size: 44px;
+  margin: 10px 0;
+  font-weight: 700;
+}
+
+.stat p {
+  font-size: 16px;
+  opacity: 0.9;
+}    body {
+      font-family: Lato, sans-serif;
+    }
+
+    .container {
+      padding: 20px;
     }
   </style>
 </head>
+
 <body>
 
-<!-- Your CodePen embed OR content goes here -->
-<iframe src="https://codepen.io/CapitalFootball/pen/VYKqYBg"
-        style="width:100%; height:100vh; border:none;">
-</iframe>
+<div class="stats-section">
+  <div class="overlay"></div>
+
+  <div class="stats-container">
+    
+    <div class="stat">
+      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/ffd6fab1-4852-4a32-8523-d6836a0d7b71_wo.png" />
+      <h2 class="counter" data-target="8904">0</h2>
+      <p>Players</p>
+    </div>
+
+    <div class="stat">
+      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/16337cdf-affb-41c0-bd33-c43493b57f50_wo.png" />
+      <h2 class="counter" data-target="418">0</h2>
+      <p>Teams</p>
+    </div>
+
+    <div class="stat">
+      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/23cbbc70-be02-40bf-a9fb-24c26eeaba20_wo.png" />
+      <h2 class="counter" data-target="10000" data-plus="true">0</h2>
+      <p>Volunteers</p>
+    </div>
+
+    <div class="stat">
+      <img class="icon" src="https://prodcdn.sporty.co.nz/cms/10035/66425/979288/1438f624-c050-416f-9841-509c0c0f602f_wo.png" />
+      <h2 class="counter" data-target="5">41</h2>
+      <p>Affiliated Clubs</p>
+    </div>
+
+  </div>
+</div>  <div class="container">
+    <h1>My Sporty Embed</h1>
+    <button onclick="alert('Hello!')">Click Me</button>
+  </div>
+
+  <script>
+const counters = document.querySelectorAll('.counter');
+
+let triggered = false;
+
+const startCounters = () => {
+  counters.forEach(counter => {
+    const target = +counter.getAttribute('data-target');
+    const hasPlus = counter.getAttribute('data-plus') === "true";
+
+    let count = 0;
+    const increment = target / 100;
+
+    const updateCount = () => {
+      if (count < target) {
+        count += increment;
+        counter.innerText = Math.ceil(count).toLocaleString();
+        setTimeout(updateCount, 20);
+      } else {
+        counter.innerText = target.toLocaleString() + (hasPlus ? "+" : "");
+      }
+    };
+
+    updateCount();
+  });
+};
+
+window.onload = () => {
+  if (!triggered) {
+    startCounters();
+    triggered = true;
+  }
+};
+function sendHeight() {
+  const height = document.body.scrollHeight;
+  window.parent.postMessage({ iframeHeight: height }, "*");
+}
+
+// send height on load + resize
+window.onload = sendHeight;
+window.onresize = sendHeight;
+
+// also trigger after counters animate
+setTimeout(sendHeight, 2000);    console.log("Page loaded");
+  </script>
 
 </body>
 </html>
